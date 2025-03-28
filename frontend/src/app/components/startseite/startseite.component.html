@@ -1,19 +1,32 @@
 <div class="startseite">
-    <img src="assets/images/beach-cop-logo.png" alt="Großes Logo" class="logo-large" />
-
-    <form>
+    <img src="assets/images/beach-cop-logo.png" alt="Logo" class="logo-large" />
+  
+    <form class="turnier-form" #form="ngForm" (ngSubmit)="onTurnierStarten()">
+      <div class="form-group">
         <mat-form-field appearance="fill">
-            <mat-label>Turniername</mat-label>
-            <input
-                matInput
-                name="turniername"
-                required
-                [(ngModel)]="turniername"
-                #turniernameField="ngModel"
-            />
-            <mat-error *ngIf="turniernameField.invalid && turniernameField.touched">
-                Bitte gib einen Turniernamen ein!
-            </mat-error>
+          <mat-label>Turniername</mat-label>
+          <input
+            matInput
+            name="turniername"
+            required
+            [(ngModel)]="turniername"
+            #turniernameField="ngModel"
+          />
+          <mat-error *ngIf="turniernameField.invalid && turniernameField.touched">
+            Bitte gib einen Turniernamen ein.
+          </mat-error>
         </mat-form-field>
+  
+        <button
+          mat-raised-button
+          color="warn"
+          type="submit"
+          [disabled]="form.invalid"
+          class="start-button"
+        >
+          Turnier starten
+        </button>
+      </div>
     </form>
-</div>
+  </div>
+  
