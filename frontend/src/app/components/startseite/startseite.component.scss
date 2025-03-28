@@ -1,0 +1,18 @@
+.startseite{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.logo-large{
+    height: 300px;
+}
+
+.turnier-form{
+    width: 300px;
+
+    mat-form-field{
+        width: 100%;
+    }
+}

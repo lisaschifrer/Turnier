@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StartseiteComponent } from './components/startseite/startseite.component';
 import { RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     RouterOutlet,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    StartseiteComponent
     ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
