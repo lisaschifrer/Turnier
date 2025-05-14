@@ -5,6 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatError } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -15,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatError,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './startseite.component.html',
   styleUrl: './startseite.component.scss'
@@ -23,7 +26,26 @@ import { MatIconModule } from '@angular/material/icon';
 export class StartseiteComponent {
   turniername: string = '';
 
+  constructor(private httpClient: HttpClient, 
+              private snackBar: MatSnackBar){}
+
   onTurnierStarten() {
-    console.log('Turniername: ', this.turniername);
+    const payload = {
+      name: this.turniername
+    };
+
+    this.httpClient.post(environment.apiUrl + '/Turnier', payload)
+      .subscribe({
+        next: (response) => {
+          this.snackBar.open('Turnier erfolgreich gespeichert 🎉', 'Schließen', {
+            duration: 3000,
+            panelClass: ['snackbar-success']
+          });
+        },
+        error: (err) => {
+          console.error('Fehler beim Speichern des Turniers:', err);
+          alert('Fehler beim Starten des Turniers.');
+        }
+      });
   }
 }
