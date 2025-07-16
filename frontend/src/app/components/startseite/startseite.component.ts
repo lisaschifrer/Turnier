@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Router } from '@angular/router'
 
 
 @Component({
@@ -27,7 +28,8 @@ export class StartseiteComponent {
   turniername: string = '';
 
   constructor(private httpClient: HttpClient, 
-              private snackBar: MatSnackBar){}
+              private snackBar: MatSnackBar,
+              private router: Router){}
 
   onTurnierStarten() {
     const payload = {
@@ -47,5 +49,7 @@ export class StartseiteComponent {
           alert('Fehler beim Starten des Turniers.');
         }
       });
+
+      this.router.navigate(['/turnier/teams']); 
   }
 }

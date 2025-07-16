@@ -6,8 +6,12 @@ namespace backend.Infrastructure
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options) {}
+        : base(options) { }
 
-        public DbSet<Turnier> Turniere {get; set;}
+        public DbSet<Turnier> Turniere { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
+        
+        public DbSet<Team> Teams { get; set; }
     }
 }
