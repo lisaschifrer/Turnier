@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using backend.Infrastructure;
 using backend.Models;
+using System.Runtime.CompilerServices;
 
 namespace backend.Services
 {
@@ -26,12 +27,18 @@ namespace backend.Services
             foreach (var name in groupNames)
             {
                 
-               _context.Groups.Add(new Group { Name = name });
+               _context.Groups.Add(new Group
+               {
+                   Name = name,
+                   TurnierId = turnier.Id
+               });
                 
             }
 
             await _context.SaveChangesAsync();
-            return turnier;
+            return await _context.Turniere
+                .Include(t => t.Groups)
+                .FirstAsync(t => t.Id == turnier.Id);
         }
     }
 }

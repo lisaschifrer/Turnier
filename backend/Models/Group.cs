@@ -9,6 +9,8 @@ namespace backend.Models
 
         public string Name { get; set; } = string.Empty;
 
+        public Guid TurnierId { get; set; } 
+
         public List<Team> Teams { get; set; } = new();
     }
 }
