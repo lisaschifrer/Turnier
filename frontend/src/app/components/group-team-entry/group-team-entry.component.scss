@@ -17,3 +17,15 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 16px; 
 }
+
+.start-button-container{
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+}
+
+.start-button{
+    min-width: 250px;
+    font-size: 18px;
+    padding: 12px 24px
+}

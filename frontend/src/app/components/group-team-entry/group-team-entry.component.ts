@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { GroupService } from '../../services/group.service';
 import { TeamService } from '../../services/team.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-team-entry',
@@ -31,10 +32,8 @@ export class GroupTeamEntryComponent implements OnInit{
 
     constructor(
         private groupService: GroupService, 
-        private teamService: TeamService)
-        {
-
-        }
+        private teamService: TeamService,
+        private router: Router){ }
 
    ngOnInit(): void {
      this.groupService.getGroups().subscribe(groups =>{
@@ -53,5 +52,10 @@ export class GroupTeamEntryComponent implements OnInit{
     this.teamService.addTeam(groupId, name).subscribe(() => {
       console.log(`Team" ${name}" gespeichert`);
     });
+   }
+
+   // Button um weiter in die Gruppenphase zu kommen
+   startGroupPhase(): void{
+    this.router.navigate(['/turnier/gruppenspiele']);
    }
 }
