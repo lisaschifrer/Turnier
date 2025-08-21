@@ -20,6 +20,17 @@ namespace backend.Services
 
             _context.Turniere.Add(turnier);
             await _context.SaveChangesAsync();
+
+            var groupNames = new[] { "A", "B", "C", "D", "E", "F", "G", "H" };
+
+            foreach (var name in groupNames)
+            {
+                
+               _context.Groups.Add(new Group { Name = name });
+                
+            }
+
+            await _context.SaveChangesAsync();
             return turnier;
         }
     }

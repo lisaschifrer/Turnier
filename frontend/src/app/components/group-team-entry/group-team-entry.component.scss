@@ -1,3 +1,19 @@
-.group-card{
-    width: 320px;
+.groups-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.table{
+    padding: 16px;
+}
+
+.group-card {
+  padding: 16px;
+  display: block; 
+  border-radius: 8px;  
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 16px; 
 }

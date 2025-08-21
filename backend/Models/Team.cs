@@ -9,8 +9,6 @@ namespace backend.Models
 
         public string Name { get; set; } = string.Empty;
 
-        public int GroupId { get; set; }
-
-        public Group Group { get; set; } = null;
+        public Guid GroupId { get; set; }
     }
 }
