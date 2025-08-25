@@ -11,7 +11,9 @@ namespace backend.Infrastructure
         public DbSet<Turnier> Turniere { get; set; }
 
         public DbSet<Group> Groups { get; set; }
-        
+
         public DbSet<Team> Teams { get; set; }
+        
+        public DbSet<GroupMatch> GroupMatches { get; set; }
     }
 }

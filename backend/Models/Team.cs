@@ -10,5 +10,7 @@ namespace backend.Models
         public string Name { get; set; } = string.Empty;
 
         public Guid GroupId { get; set; }
+
+        public int? Points { get; set; }
     }
 }
