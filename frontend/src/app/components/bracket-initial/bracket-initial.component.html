@@ -1,0 +1,138 @@
+<mat-card *ngIf="bracket" class="bracket-card">
+  <mat-card-title>{{ bracket.name }}</mat-card-title>
+  <div class="hint">Wähle die 4 Start-Paarungen (jede Mannschaft darf nur einmal vorkommen).</div>
+
+  <div class="pairs">
+    <div class="pair" *ngFor="let i of [1,2,3,4]">
+      <mat-form-field appearance="outline" class="ff">
+        <mat-label>Spiel {{i}} – Team A</mat-label>
+        <mat-select [(ngModel)]="selected[i].teamAId">
+          <mat-option *ngFor="let t of teams" [value]="t.id" [disabled]="isTeamDisabled(t.id,'A',i)">
+            {{ t.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <span class="vs">vs</span>
+
+      <mat-form-field appearance="outline" class="ff">
+        <mat-label>Spiel {{i}} – Team B</mat-label>
+        <mat-select [(ngModel)]="selected[i].teamBId">
+          <mat-option *ngFor="let t of teams" [value]="t.id" [disabled]="isTeamDisabled(t.id,'B',i)">
+            {{ t.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="saveMatches()" [disabled]="!canSave() || saving">
+      {{ saving ? 'Speichere…' : 'Spiele speichern' }}
+    </button>
+  </div>
+</mat-card>
+
+<mat-divider></mat-divider>
+
+<mat-card *ngIf="matches?.length">
+  <mat-card-title>Start-Spiele</mat-card-title>
+  <div class="matches">
+    <div class="match" *ngFor="let m of matches">
+      <div class="names">
+        <strong>{{ m.teamA?.name || teamName(m.teamAId) }}</strong>
+        <span class="vs">vs</span>
+        <strong>{{ m.teamB?.name || teamName(m.teamBId) }}</strong>
+      </div>
+
+      <div class="win-actions">
+        <button mat-stroked-button color="primary" (click)="setWinner(m.id, m.teamAId)">
+          {{ m.teamA?.name || teamName(m.teamAId) }} gewinnt
+        </button>
+        <button mat-stroked-button color="accent" (click)="setWinner(m.id, m.teamBId)">
+          {{ m.teamB?.name || teamName(m.teamBId) }} gewinnt
+        </button>
+      </div>
+
+      <div class="winner" *ngIf="m.winnerId">
+        Gewinner: <strong>{{ teamName(m.winnerId) }}</strong>
+      </div>
+    </div>
+  </div>
+</mat-card>
+<!-- Runde 1 (bereits vorhanden: Auswahl + gespeicherte Matches) -->
+
+<mat-divider></mat-divider>
+
+<h3 style="margin-top:12px;">Runde 2</h3>
+<div class="matches">
+  <div class="match" *ngFor="let m of matchesR2; let idx = index">
+    <div class="names">
+      <strong>{{ m.teamA?.name || teamName(m.teamAId!) || '—' }}</strong>
+      <span class="vs">vs</span>
+      <strong>{{ m.teamB?.name || teamName(m.teamBId!) || '—' }}</strong>
+      <span class="tag">Spiel {{ idx + 5 }}</span>
+    </div>
+
+    <div class="win-actions" *ngIf="m.teamAId && m.teamBId">
+      <button mat-stroked-button color="primary" (click)="setWinner(m.id, m.teamAId!)">
+        {{ teamName(m.teamAId!) }} gewinnt
+      </button>
+      <button mat-stroked-button color="accent" (click)="setWinner(m.id, m.teamBId!)">
+        {{ teamName(m.teamBId!) }} gewinnt
+      </button>
+    </div>
+
+    <div class="winner" *ngIf="m.winnerId">
+      Gewinner: <strong>{{ teamName(m.winnerId!) }}</strong>
+    </div>
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<h3 style="margin-top:12px;">Platzierungsspiele (Finalrunde)</h3>
+<div class="matches">
+  <div class="match" *ngFor="let m of matchesR3; let idx = index">
+    <div class="names">
+      <strong>{{ m.teamA?.name || teamName(m.teamAId) || '—' }}</strong>
+      <span class="vs">vs</span>
+      <strong>{{ m.teamB?.name || teamName(m.teamBId) || '—' }}</strong>
+      <span class="tag">
+        <!-- sprechende Labels je nach idx -->
+        {{ idx === 0 ? 'Spiel 9 (Platz 1–2)' :
+           idx === 1 ? 'Spiel 10 (Platz 3–4)' :
+           idx === 2 ? 'Spiel 11 (Platz 5–6)' :
+                       'Spiel 12 (Platz 7–8)' }}
+      </span>
+    </div>
+
+    <div class="win-actions" *ngIf="m.teamAId && m.teamBId">
+      <button mat-stroked-button color="primary" (click)="setWinner(m.id, m.teamAId!)">
+        {{ teamName(m.teamAId!) }} gewinnt
+      </button>
+      <button mat-stroked-button color="accent" (click)="setWinner(m.id, m.teamBId!)">
+        {{ teamName(m.teamBId!) }} gewinnt
+      </button>
+    </div>
+
+    <div class="winner" *ngIf="m.winnerId">
+      Gewinner: <strong>{{ teamName(m.winnerId!) }}</strong>
+    </div>
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<h3 style="margin-top:12px;" *ngIf="finalPlacements.length">Endplatzierungen</h3>
+<table class="standings" *ngIf="finalPlacements.length">
+  <thead><tr><th>Platz</th><th>Team</th></tr></thead>
+  <tbody>
+    <tr *ngFor="let p of finalPlacements">
+      <td>{{ p.place }}</td>
+      <td>{{ p.teamName }}</td>
+    </tr>
+  </tbody>
+</table>
+
+

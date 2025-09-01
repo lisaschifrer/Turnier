@@ -8,5 +8,5 @@ export const routes: Routes = [
   { path: '', component: StartseiteComponent },
   { path: 'turnier/teams', component: GroupTeamEntryComponent },
   { path: 'turnier/gruppenspiele', component: GroupMatchesComponent},
-  { path: 'turnier/kreuzspiele', component: KreuzFinalspieleComponent}
+  { path: 'turnier/:id/kreuzspiele', component: KreuzFinalspieleComponent}
 ];

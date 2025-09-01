@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using backend.Infrastructure;
+using backend.DTO;
 using backend.Models;
 using backend.Migrations;
 using System.Text.RegularExpressions;

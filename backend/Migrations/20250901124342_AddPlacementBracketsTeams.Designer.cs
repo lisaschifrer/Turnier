@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Infrastructure;
 
@@ -11,9 +12,11 @@ using backend.Infrastructure;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250901124342_AddPlacementBracketsTeams")]
+    partial class AddPlacementBracketsTeams
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,43 +57,19 @@ namespace backend.Migrations
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("IndexInRound")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("PlacementBracketId")
+                    b.Property<Guid?>("PlacementBracketId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("RoundNumber")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("SourceA_MatchId")
+                    b.Property<Guid>("TeamAId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SourceA_Take")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("SourceB_MatchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("SourceB_Take")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TeamAId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("TeamBId")
+                    b.Property<Guid>("TeamBId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("WinnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PlacementBracketId");
-
-                    b.HasIndex("TeamAId");
-
-                    b.HasIndex("TeamBId");
 
                     b.ToTable("FinalMatches");
                 });
@@ -200,31 +179,6 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Turniere");
-                });
-
-            modelBuilder.Entity("backend.Models.FinalMatch", b =>
-                {
-                    b.HasOne("backend.Models.PlacementBracket", "PlacementBracket")
-                        .WithMany()
-                        .HasForeignKey("PlacementBracketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("backend.Models.Team", "TeamA")
-                        .WithMany()
-                        .HasForeignKey("TeamAId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("backend.Models.Team", "TeamB")
-                        .WithMany()
-                        .HasForeignKey("TeamBId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("PlacementBracket");
-
-                    b.Navigation("TeamA");
-
-                    b.Navigation("TeamB");
                 });
 
             modelBuilder.Entity("backend.Models.Group", b =>

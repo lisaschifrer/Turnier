@@ -21,6 +21,7 @@ import { Router } from '@angular/router'
 export class GroupMatchesComponent implements OnInit{
   groups: any[] = [];
   groupNames: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  turnierId!: string;
 
   constructor(private service: MatchService,
               private placementService: PlacementService,
@@ -29,10 +30,10 @@ export class GroupMatchesComponent implements OnInit{
 
   ngOnInit(): void {
     // TODO: TurnierId dynamisch holen
-    const turnierId = localStorage.getItem('turnierId');;
-    if(turnierId)
+    this.turnierId = localStorage.getItem('turnierId') ?? '';
+    if(this.turnierId)
     {
-      this.service.generateMatches(turnierId).subscribe(matches => {
+      this.service.generateMatches(this.turnierId).subscribe(matches => {
       // Matches nach Gruppen sortieren
       const grouped: {[id: string]: any} = {};
       let index = 0;
@@ -62,15 +63,12 @@ export class GroupMatchesComponent implements OnInit{
   }
 
   startKreuzspiele() {
-    //const turnierId = 'HIER-DEIN-TURNIER-ID'; // später dynamisch setzen
-    //this.placementService.createAllBrackets(turnierId).subscribe({
-      //next: () => {
-        //console.log('Alle Brackets erzeugt');
-    this.router.navigate(['/turnier/kreuzspiele']);
-      //},
-      //error: (err) => {
-        //console.error('Fehler beim Erstellen der Brackets', err);
-      //}
-    //});
-  }
+  this.placementService.createAllBrackets(this.turnierId).subscribe({
+    next: () => this.router.navigate([`/turnier/${this.turnierId}/kreuzspiele`]),
+    error: (err) => {
+      console.error('CreateAllBrackets error:', err);
+      alert(err?.error?.message ?? 'Fehler beim Erstellen der Brackets – Details in der Konsole.');
+    }
+  });
+}
 }

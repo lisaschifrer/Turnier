@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Infrastructure;
 
@@ -11,9 +12,11 @@ using backend.Infrastructure;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250901112657_AddPlacementBrackets")]
+    partial class AddPlacementBrackets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,56 +46,6 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GroupMatches");
-                });
-
-            modelBuilder.Entity("backend.Models.FinalMatch", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("IndexInRound")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("PlacementBracketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("RoundNumber")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("SourceA_MatchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("SourceA_Take")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("SourceB_MatchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("SourceB_Take")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TeamAId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("TeamBId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("WinnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlacementBracketId");
-
-                    b.HasIndex("TeamAId");
-
-                    b.HasIndex("TeamBId");
-
-                    b.ToTable("FinalMatches");
                 });
 
             modelBuilder.Entity("backend.Models.Group", b =>
@@ -142,28 +95,6 @@ namespace backend.Migrations
                     b.ToTable("PlacementBrackets");
                 });
 
-            modelBuilder.Entity("backend.Models.PlacementBracketTeam", b =>
-                {
-                    b.Property<Guid>("PlacementBracketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TeamId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Seed")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlacementBracketId", "TeamId");
-
-                    b.HasIndex("TeamId");
-
-                    b.HasIndex("PlacementBracketId", "Seed")
-                        .IsUnique()
-                        .HasFilter("[Seed] IS NOT NULL");
-
-                    b.ToTable("placementBracketTeams");
-                });
-
             modelBuilder.Entity("backend.Models.Team", b =>
                 {
                     b.Property<Guid>("Id")
@@ -202,31 +133,6 @@ namespace backend.Migrations
                     b.ToTable("Turniere");
                 });
 
-            modelBuilder.Entity("backend.Models.FinalMatch", b =>
-                {
-                    b.HasOne("backend.Models.PlacementBracket", "PlacementBracket")
-                        .WithMany()
-                        .HasForeignKey("PlacementBracketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("backend.Models.Team", "TeamA")
-                        .WithMany()
-                        .HasForeignKey("TeamAId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("backend.Models.Team", "TeamB")
-                        .WithMany()
-                        .HasForeignKey("TeamBId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("PlacementBracket");
-
-                    b.Navigation("TeamA");
-
-                    b.Navigation("TeamB");
-                });
-
             modelBuilder.Entity("backend.Models.Group", b =>
                 {
                     b.HasOne("backend.Models.Turnier", null)
@@ -234,25 +140,6 @@ namespace backend.Migrations
                         .HasForeignKey("TurnierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("backend.Models.PlacementBracketTeam", b =>
-                {
-                    b.HasOne("backend.Models.PlacementBracket", "PlacementBracket")
-                        .WithMany("Participants")
-                        .HasForeignKey("PlacementBracketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("backend.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PlacementBracket");
-
-                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("backend.Models.Team", b =>
@@ -267,11 +154,6 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Group", b =>
                 {
                     b.Navigation("Teams");
-                });
-
-            modelBuilder.Entity("backend.Models.PlacementBracket", b =>
-                {
-                    b.Navigation("Participants");
                 });
 
             modelBuilder.Entity("backend.Models.Turnier", b =>

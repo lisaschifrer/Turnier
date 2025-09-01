@@ -1,8 +1,43 @@
+<div class="toolbar">
+  <!-- der Button zum Starten der Brackets kann hier ODER bei den Gruppenspielen sein -->
+  <!-- <button mat-raised-button color="primary" (click)="startBrackets()">Kreuz- und Finalspiele starten</button> -->
+</div>
 
 <mat-tab-group>
-  <mat-tab label="1. Plätze (1–8)"> Inhalt folgt...</mat-tab>
-  <mat-tab label="2. Plätze (9–16)"> Inhalt folgt...</mat-tab>
-  <mat-tab label="3. Plätze (17–24)"> Inhalt folgt...</mat-tab>
-  <mat-tab label="4. Plätze (25–32)"> Inhalt folgt...</mat-tab>
-  <mat-tab label="5. Plätze (33–40)"> Inhalt folgt...</mat-tab>
+  <mat-tab label="1. Plätze (1–8)">
+    <ng-container *ngIf="bracketId(1); else no1">
+      <app-bracket-initial [bracketId]="bracketId(1)!"></app-bracket-initial>
+    </ng-container>
+    <ng-template #no1>
+      <p style="margin:16px">Kein Bracket gefunden. Bitte zuerst Brackets erstellen.</p>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="2. Plätze (9–16)">
+    <ng-container *ngIf="bracketId(2); else no2">
+      <app-bracket-initial [bracketId]="bracketId(2)!"></app-bracket-initial>
+    </ng-container>
+    <ng-template #no2><p style="margin:16px">Kein Bracket gefunden.</p></ng-template>
+  </mat-tab>
+
+  <mat-tab label="3. Plätze (17–24)">
+    <ng-container *ngIf="bracketId(3); else no3">
+      <app-bracket-initial [bracketId]="bracketId(3)!"></app-bracket-initial>
+    </ng-container>
+    <ng-template #no3><p style="margin:16px">Kein Bracket gefunden.</p></ng-template>
+  </mat-tab>
+
+  <mat-tab label="4. Plätze (25–32)">
+    <ng-container *ngIf="bracketId(4); else no4">
+      <app-bracket-initial [bracketId]="bracketId(4)!"></app-bracket-initial>
+    </ng-container>
+    <ng-template #no4><p style="margin:16px">Kein Bracket gefunden.</p></ng-template>
+  </mat-tab>
+
+  <mat-tab label="5. Plätze (33–40)">
+    <ng-container *ngIf="bracketId(5); else no5">
+      <app-bracket-initial [bracketId]="bracketId(5)!"></app-bracket-initial>
+    </ng-container>
+    <ng-template #no5><p style="margin:16px">Kein Bracket gefunden.</p></ng-template>
+  </mat-tab>
 </mat-tab-group>

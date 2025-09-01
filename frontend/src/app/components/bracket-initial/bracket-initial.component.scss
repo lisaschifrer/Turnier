@@ -1,0 +1,14 @@
+.bracket-card { margin: 16px; padding: 8px; }
+.hint { margin-bottom: 12px; opacity: .8; }
+.pairs { display: grid; gap: 12px; }
+.pair { display: flex; align-items: center; gap: 12px; }
+.ff { min-width: 260px; }
+.vs { opacity: .7; }
+.actions { margin-top: 12px; }
+.matches { display: grid; gap: 12px; margin-top: 12px; }
+.match { padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; }
+.names { margin-bottom: 8px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.tag { margin-left: auto; font-size: 12px; opacity: .7; }
+.winner { margin-top: 8px; font-style: italic; }
+.standings { border-collapse: collapse; margin-top: 12px; width: 100%; }
+.standings th, .standings td { border: 1px solid #e0e0e0; padding: 6px 8px; text-align: left; }

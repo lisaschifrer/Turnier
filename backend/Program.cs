@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 // Services
 builder.Services.AddScoped<TurnierService>();
 builder.Services.AddScoped<GroupMatchService>();
+builder.Services.AddScoped<PlacementService>();
 
 // allow Frontend
 builder.Services.AddCors(options =>
@@ -32,8 +33,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
-
+else
+{
+    app.UseExceptionHandler("/error");
+}
 app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
