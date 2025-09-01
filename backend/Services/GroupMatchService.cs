@@ -3,6 +3,7 @@ using backend.Infrastructure;
 using backend.Models;
 using backend.Migrations;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
 
 namespace backend.Services
 {
@@ -15,7 +16,7 @@ namespace backend.Services
             _context = context;
         }
 
-        public async Task<List<GroupMatch>> GenerateGroupMatchesAsync(Guid turnierId)
+        public async Task<List<GroupMatchDto>> GenerateGroupMatchesAsync(Guid turnierId)
         {
             var groups = await _context.Groups
                 .Include(g => g.Teams)
@@ -45,17 +46,28 @@ namespace backend.Services
             }
 
             await _context.SaveChangesAsync();
-            return matches;
+            var matchDtos = matches.Select(m => new GroupMatchDto
+            {
+                Id = m.Id,
+                GroupId = m.GroupId,
+                GroupName = groups.First(g => g.Id == m.GroupId).Name,
+                TeamAId = m.TeamAId,
+                TeamBId = m.TeamBId,
+                WinnerId = m.WinnerId,
+                TeamAName = groups.SelectMany(g => g.Teams).First(t => t.Id == m.TeamAId).Name,
+                TeamBName = groups.SelectMany(g => g.Teams).First(t => t.Id == m.TeamBId).Name
+            }).ToList();
+
+            return matchDtos;
         }
 
         public async Task<GroupMatch> SetWinnerAsync(Guid matchId, Guid winnerId)
         {
-            var match = await _context.GroupMatches
-                .Include(m => m.TeamAId)
-                .Include(m => m.TeamBId)
-                .FirstOrDefaultAsync(m => m.Id == matchId);
-
+            var match = await _context.GroupMatches.FindAsync(matchId);
             if (match == null) throw new Exception("Match not found");
+
+            var team = await _context.Teams.FindAsync(winnerId);
+            if (team == null) throw new Exception("Winner team not found");
 
             match.WinnerId = winnerId;
 

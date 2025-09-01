@@ -14,7 +14,7 @@ export class MatchService{
     }
 
     setWinner(matchId: string, winnerId:string): Observable<Match[]> {
-        return this.http.post<Match[]>(`${this.apiUrl}/${matchId}/winner/${winnerId}`, {});
+        return this.http.put<Match[]>(`${this.apiUrl}/${matchId}/winner/${winnerId}`, {});
     }
 }
 

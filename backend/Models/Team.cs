@@ -11,6 +11,6 @@ namespace backend.Models
 
         public Guid GroupId { get; set; }
 
-        public int? Points { get; set; }
+        public int? Points { get; set; } = 0;
     }
 }

@@ -1,1 +1,35 @@
-<p>group-matches works!</p>
+<div class="toolbar">
+  <button mat-raised-button color="primary" (click)="startKreuzspiele()">
+    Kreuz- und Finalspiele starten
+  </button>
+</div>
+
+<mat-tab-group>
+    <mat-tab *ngFor="let group of groups" label="Gruppe {{ group.name }}">
+        <table mat-table [dataSource]="group.matches" class="mat-elevation-z2 full-width">
+            <ng-container matColumnDef="teams">
+                <th mat-header-cell *matHeaderCellDef>Match</th>
+                <td mat-cell *matCellDef="let match">
+                    {{ match.teamAName}} VS {{ match.teamBName }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Aktion</th>
+                <td mat-cell *matCellDef="let match">
+                    <button mat-stroked-button color="primary"
+                        (click)="setWinner(match.id, match.teamAId)">
+                        {{ match.teamAName }} gewinnt
+                    </button>
+                    <button mat-stroked-button color="primary"
+                        (click)="setWinner(match.id, match.teamBId)">
+                        {{ match.teamBName }} gewinnt
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['teams', 'actions']"></tr>
+            <tr mat-row *matRowDef="let row; columns:['teams', 'actions']"></tr>
+        </table>
+    </mat-tab>
+</mat-tab-group>

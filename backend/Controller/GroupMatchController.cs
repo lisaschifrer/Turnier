@@ -18,13 +18,13 @@ public class GroupMatchesController : ControllerBase
     }
 
     [HttpPost("generate/{turnierId}")]
-    public async Task<IActionResult> Generate([FromRoute] Guid turnierId)
-    {
-        var matches = await _service.GenerateGroupMatchesAsync(turnierId);
-        return Ok(matches);
-    }
+    public async Task<ActionResult<List<GroupMatchDto>>> GenerateGroupMatches(Guid turnierId)
+{
+    var matches = await _service.GenerateGroupMatchesAsync(turnierId);
+    return Ok(matches);
+}
 
-    [HttpPost("{matchId}/winner/{winnerId}")]
+    [HttpPut("{matchId}/winner/{winnerId}")]
     public async Task<IActionResult> SetWinner([FromRoute] Guid matchId, [FromRoute] Guid winnerId)
     {
         var match = await _service.SetWinnerAsync(matchId, winnerId);

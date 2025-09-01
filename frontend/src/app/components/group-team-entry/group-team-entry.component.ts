@@ -56,6 +56,12 @@ export class GroupTeamEntryComponent implements OnInit{
 
    // Button um weiter in die Gruppenphase zu kommen
    startGroupPhase(): void{
+    if (this.groups.length > 0) {
+    const turnierId = this.groups[0].turnierId; // 👈 alle Gruppen haben dieselbe TurnierId
+    localStorage.setItem('turnierId', turnierId); // optional speichern
     this.router.navigate(['/turnier/gruppenspiele']);
+  } else {
+    console.error("Keine Gruppen gefunden, TurnierId fehlt!");
+  }
    }
 }
