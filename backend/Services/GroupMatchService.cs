@@ -22,6 +22,7 @@ namespace backend.Services
             var groups = await _context.Groups
                 .Include(g => g.Teams)
                 .Where(g => g.TurnierId == turnierId)
+                .OrderBy(g => g.Name)
                 .ToListAsync();
 
             var matches = new List<GroupMatch>();

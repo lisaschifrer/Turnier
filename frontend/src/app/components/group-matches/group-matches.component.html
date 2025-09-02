@@ -5,31 +5,72 @@
 </div>
 
 <mat-tab-group>
-    <mat-tab *ngFor="let group of groups" label="Gruppe {{ group.name }}">
-        <table mat-table [dataSource]="group.matches" class="mat-elevation-z2 full-width">
-            <ng-container matColumnDef="teams">
-                <th mat-header-cell *matHeaderCellDef>Match</th>
-                <td mat-cell *matCellDef="let match">
-                    {{ match.teamAName}} VS {{ match.teamBName }}
-                </td>
-            </ng-container>
+  <mat-tab *ngFor="let group of groups" label="Gruppe {{ group.name }}">
 
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Aktion</th>
-                <td mat-cell *matCellDef="let match">
-                    <button mat-stroked-button color="primary"
-                        (click)="setWinner(match.id, match.teamAId)">
-                        {{ match.teamAName }} gewinnt
-                    </button>
-                    <button mat-stroked-button color="primary"
-                        (click)="setWinner(match.id, match.teamBId)">
-                        {{ match.teamBName }} gewinnt
-                    </button>
-                </td>
-            </ng-container>
+    <!-- Matches-Tabelle -->
+    <table mat-table [dataSource]="group.matches" class="mat-elevation-z2 full-width">
+      <ng-container matColumnDef="teams">
+        <th mat-header-cell *matHeaderCellDef>Match</th>
+        <td mat-cell *matCellDef="let match">
+          {{ match.teamAName }} VS {{ match.teamBName }}
+        </td>
+      </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="['teams', 'actions']"></tr>
-            <tr mat-row *matRowDef="let row; columns:['teams', 'actions']"></tr>
-        </table>
-    </mat-tab>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Aktion</th>
+        <td mat-cell *matCellDef="let match">
+          <!-- Team A -->
+          <button mat-stroked-button
+                  [color]="match.winnerId === match.teamAId ? 'primary' : undefined"
+                  [disabled]="!!match.winnerId && match.winnerId !== match.teamAId"
+                  [ngClass]="{ 'winner-btn': match.winnerId === match.teamAId }"
+                  (click)="onWinnerClick(match, match.teamAId)">
+            {{ match.teamAName }} gewinnt
+          </button>
+
+          <!-- Team B -->
+          <button mat-stroked-button
+                  [color]="match.winnerId === match.teamBId ? 'primary' : undefined"
+                  [disabled]="!!match.winnerId && match.winnerId !== match.teamBId"
+                  [ngClass]="{ 'winner-btn': match.winnerId === match.teamBId }"
+                  (click)="onWinnerClick(match, match.teamBId)">
+            {{ match.teamBName }} gewinnt
+          </button>
+
+          <!-- Ergebniszeile -->
+          <div class="winner-line" *ngIf="match.winnerId">
+            Gewinner: <strong>{{ winnerName(match) }}</strong>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['teams', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['teams', 'actions']"></tr>
+    </table>
+
+    <h3>Spielstand</h3>
+    <!-- LIVE-Standings (Platz & Punkte) für diese Gruppe -->
+    <table mat-table [dataSource]="standingsByGroup[group.id] || []"
+           class="mat-elevation-z2 full-width standings-table">
+
+      <ng-container matColumnDef="rank">
+        <th mat-header-cell *matHeaderCellDef>Platz</th>
+        <td mat-cell *matCellDef="let s">{{ s.rank }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="team">
+        <th mat-header-cell *matHeaderCellDef>Team</th>
+        <td mat-cell *matCellDef="let s">{{ s.teamName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef>Punkte</th>
+        <td mat-cell *matCellDef="let s">{{ s.points }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['rank','team','points']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['rank','team','points']"></tr>
+    </table>
+
+  </mat-tab>
 </mat-tab-group>

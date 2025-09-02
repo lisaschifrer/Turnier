@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<TurnierService>();
 builder.Services.AddScoped<GroupMatchService>();
 builder.Services.AddScoped<PlacementService>();
+builder.Services.AddScoped<GroupService>();
 
 // allow Frontend
 builder.Services.AddCors(options =>

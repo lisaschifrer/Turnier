@@ -10,4 +10,10 @@ export class GroupService{
     getGroups(): Observable<any[]> {
         return this.http.get<any[]>(environment.apiUrl + '/Group');
     }
+
+    getStandings(groupId: string) {
+  return this.http.get<Array<{teamId:string; teamName:string; points:number; rank:number}>>(
+    `${environment.apiUrl}/Group/${groupId}/standings`
+  );
+}
 }
