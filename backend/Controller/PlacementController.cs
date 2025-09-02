@@ -10,10 +10,13 @@ namespace backend.Controller;
 public class PlacementController : ControllerBase
 {
     private readonly PlacementService _service;
+    private readonly AppDbContext _context;
 
-    public PlacementController(PlacementService service)
+    public PlacementController(PlacementService service,
+                                AppDbContext context)
     {
         _service = service;
+        _context = context;
     }
 
     [HttpPost("{turnierId}/create-all")]
@@ -96,11 +99,40 @@ public class PlacementController : ControllerBase
 
         return Ok(matches);
     }
-    
+
     [HttpGet("{bracketId}/placements")]
     public async Task<IActionResult> GetPlacements(Guid bracketId)
     {
         var list = await _service.ComputePlacementsAsync(bracketId);
         return Ok(list.Select(x => new { place = x.place, teamId = x.team.Id, teamName = x.team.Name }));
     }
+    
+    [HttpGet("{turnierId}/final-standings")]
+public async Task<ActionResult<List<FinalStandingDto>>> GetFinalStandings(Guid turnierId)
+{
+    var brackets = await _context.PlacementBrackets
+        .Where(b => b.TurnierId == turnierId)
+        .OrderBy(b => b.PlaceMin)
+        .ToListAsync();
+
+    if (brackets.Count == 0)
+        return NotFound();
+
+    var output = new List<FinalStandingDto>();
+
+    foreach (var b in brackets)
+    {
+        // nutzt deine Service-Logik: gibt (place, team) zurück
+        var placements = await _service.ComputePlacementsAsync(b.Id);
+
+        output.AddRange(placements.Select(p => new FinalStandingDto {
+            Place = p.place,
+            TeamId = p.team.Id,
+            TeamName = p.team.Name,
+            Points = p.team.Points
+        }));
+    }
+
+    return Ok(output.OrderBy(x => x.Place).ToList());
+}
 }

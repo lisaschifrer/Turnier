@@ -5,13 +5,18 @@ import { PlacementBracket } from '../../models/placement.models';
 import { ActivatedRoute } from '@angular/router';
 import { BracketInitialComponent } from '../bracket-initial/bracket-initial.component';
 import { CommonModule } from '@angular/common';  
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @Component({
   selector: 'app-kreuz-finalspiele',
   imports: [
     MatTabsModule,
     BracketInitialComponent,
-    CommonModule
+    CommonModule,
+    RouterModule,
+    MatButtonModule
   ],
   templateUrl: './kreuz-finalspiele.component.html',
   styleUrl: './kreuz-finalspiele.component.scss'

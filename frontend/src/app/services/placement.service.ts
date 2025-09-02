@@ -46,4 +46,8 @@ export class PlacementService {
     `${this.apiUrl}/${bracketId}/placements`
   );
 }
+
+getFinalStandings(turnierId: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/${turnierId}/final-standings`);
+}
 }

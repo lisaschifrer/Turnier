@@ -1,6 +1,8 @@
 <div class="toolbar">
-  <!-- der Button zum Starten der Brackets kann hier ODER bei den Gruppenspielen sein -->
-  <!-- <button mat-raised-button color="primary" (click)="startBrackets()">Kreuz- und Finalspiele starten</button> -->
+  <button mat-raised-button color="primary" class="end-button"
+          [routerLink]="['/turnier', turnierId, 'abschluss']">
+    Endplatzierungen anzeigen
+  </button>
 </div>
 
 <mat-tab-group>

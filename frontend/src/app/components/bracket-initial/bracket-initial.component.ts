@@ -8,13 +8,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { PlacementService } from '../../services/placement.service';
 import { PlacementBracket, Team, FinalMatch } from '../../models/placement.models';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-bracket-initial',
   standalone: true,
   imports: [
     CommonModule, FormsModule,
-    MatFormFieldModule, MatSelectModule, MatButtonModule, MatCardModule, MatDividerModule
+    MatFormFieldModule, MatSelectModule, MatButtonModule, MatCardModule, MatDividerModule, RouterModule
   ],
   templateUrl: './bracket-initial.component.html',
   styleUrls: ['./bracket-initial.component.scss']
